@@ -9,8 +9,8 @@ dataset_kwargs:
 
 output_type: generate_until
 
-doc_to_visual: !function utils.avsbench_doc_to_visual
-doc_to_text: !function utils.avsbench_doc_to_text
+doc_to_visual: !function utils.avs_doc_to_visual
+doc_to_text: !function utils.avs_doc_to_text
 doc_to_target: "answer"
 
 generation_kwargs:
@@ -20,10 +20,10 @@ generation_kwargs:
   num_beams: 1
   do_sample: false
 
-process_results: !function utils.avsbench_process_results
+process_results: !function utils.avs_process_results
 metric_list:
   - metric: accuracy
-    aggregation: !function utils.avsbench_aggregate_accuracy
+    aggregation: !function utils.avs_aggregate_accuracy
     higher_is_better: true
   
 lmms_eval_specific_kwargs:
