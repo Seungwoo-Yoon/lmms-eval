@@ -39,9 +39,9 @@ def avs_process_results(doc, results):
     return {'accuracy': result}
 
 def avs_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores=None):
-    split_flag = 'avsbench'
+    split_flag = results[0]['metadata']['split']
 
-    path = generate_submission_file(f"{split_flag}_results.json", args)
+    path = generate_submission_file(f"avsbench_{split_flag}_results.json", args)
 
     with open(path, 'w') as f:
         json.dump(results, f)
