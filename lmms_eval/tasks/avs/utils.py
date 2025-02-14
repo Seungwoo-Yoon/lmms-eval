@@ -48,7 +48,7 @@ def avs_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores
         path = generate_submission_file(f"avsbench_{split_flag}_results.json", args)
 
     with open(path, 'w') as f:
-        json.dump(results, f)
+        json.dump(results, f, indent=4)
 
     updated_results = []
 
@@ -62,7 +62,7 @@ def avs_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores
         updated_results[i]['judgment'] = score_answer(result['extraction'], result['prediction'], config['metadata']['gpt_model'])
 
     with open(path, 'w') as f:
-        json.dump(updated_results, f)
+        json.dump(updated_results, f, indent=4)
 
     eval_logger.info(f"Saved results to {path}")
 
