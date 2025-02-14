@@ -199,7 +199,7 @@ def extract_answer(question, response, model='gpt-4o-mini'):
         else:
             return extraction.strip()
     except Exception as e:
-        print(f"Error in extracting answer for '{response}'")
+        eval_logger.warning(f"Error in extracting answer for '{response}'")
     return ""
 
 def verify_judgment(judgment):
@@ -220,7 +220,7 @@ def match_answer(answer, extraction, model='gpt-4o-mini'):
         judgment = get_eval_response(test_prompt, model)
         return judgment.lower().replace("judgment:", "").strip()
     except Exception as e:
-        print(f"Error in matching answer:\n[Standard Answer] {answer}\n[Model Answer] {extraction}")
+        eval_logger.warning(f"Error in matching answer:\n[Standard Answer] {answer}\n[Model Answer] {extraction}")
     return ""
 
 def score_answer(answer, extraction, model='gpt-4o-mini'):
@@ -230,7 +230,7 @@ def score_answer(answer, extraction, model='gpt-4o-mini'):
     while True:
         max_try -= 1
         if not verify_judgment(judgment):
-            print('Wrong judgment format: ', judgment)
+            eval_logger.warning('Wrong judgment format: ', judgment)
             judgment = match_answer(answer, extraction, model)
         else:
             judgment = int(judgment)
