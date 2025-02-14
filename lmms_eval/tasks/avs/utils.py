@@ -59,7 +59,7 @@ def avs_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores
         })
 
     for i, result in enumerate(tqdm(updated_results, desc='Scoring')):
-        updated_results[i]['judgment'] = score_answer(result['extraction'], result['extraction'], config['metadata']['gpt_model'])
+        updated_results[i]['judgment'] = score_answer(result['answer'], result['extraction'], config['metadata']['gpt_model'])
 
     with open(path, 'w') as f:
         json.dump(updated_results, f, indent=4)
