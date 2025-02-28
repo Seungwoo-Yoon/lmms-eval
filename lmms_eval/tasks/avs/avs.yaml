@@ -5,6 +5,7 @@ task:
   - avsbench_medium
   - avsbench_hard
   - avsbench_very_hard
+  - vitas
 
 metadata:
   version: 0.1
