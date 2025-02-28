@@ -38,7 +38,7 @@ def avs_process_results(doc, results):
     result = {**doc, 'prediction': prediction}
     return {'accuracy': result}
 
-def avs_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores=None):
+def avsbench_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores=None):
     difficulties = [result['difficulty'] for result in results]
 
     if len(set(difficulties)) > 1:
@@ -69,7 +69,32 @@ def avs_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores
     accuracy = sum([result['judgment'] for result in updated_results]) / len(updated_results)
 
     return accuracy
-        
+
+def vitas_aggregate_accuracy(results, args, *, calculate_gain=False, random_scores=None):
+    path = generate_submission_file(f"vitas_results.json", args)
+
+    with open(path, 'w') as f:
+        json.dump(results, f, indent=4)
+
+    updated_results = []
+
+    for result in tqdm(results, desc='Extracting'):
+        updated_results.append({
+            **result,
+            'extraction': extract_answer(result['question'], result['prediction'], config['metadata']['gpt_model'])
+        })
+
+    for i, result in enumerate(tqdm(updated_results, desc='Scoring')):
+        updated_results[i]['judgment'] = score_answer(result['answer'], result['extraction'], config['metadata']['gpt_model'])
+
+    with open(path, 'w') as f:
+        json.dump(updated_results, f, indent=4)
+
+    eval_logger.info(f"Saved results to {path}")
+
+    accuracy = sum([result['judgment'] for result in updated_results]) / len(updated_results)
+
+    return accuracy  
 
 sys_prompt = """
 Imagine you are an intelligent teacher.

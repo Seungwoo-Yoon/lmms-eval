@@ -23,7 +23,7 @@ generation_kwargs:
 process_results: !function utils.avs_process_results
 metric_list:
   - metric: accuracy
-    aggregation: !function utils.avs_aggregate_accuracy
+    aggregation: !function utils.avsbench_aggregate_accuracy
     higher_is_better: true
   
 lmms_eval_specific_kwargs:
